@@ -52,14 +52,7 @@ export default function VerificationPortal() {
     setProofResult('IDLE');
     setLogs([]);
 
-    // Filter local assets for category
-    const filteredAssets = reqCategory === "ALL" 
-      ? assets 
-      : assets.filter(a => a.asset_category === reqCategory);
-    
-    const totalCategoryValue = filteredAssets.reduce((sum, asset) => sum + Number(asset.current_value_usd), 0);
-
-    // Simulate ZK Proof Generation Steps from Bank Perspective
+    // UI Terminal effect
     addLog(`[SYSTEM] Sending request to Passport ${passportTarget}...`);
     await new Promise(r => setTimeout(r, 800));
     
@@ -67,12 +60,24 @@ export default function VerificationPortal() {
     await new Promise(r => setTimeout(r, 1000));
     
     addLog(`[PROVER] Receiving cryptographic zero-knowledge proof...`);
+
+    // SMART DB FUNCTION: Calls our secure RPC to verify the target's balance without RLS restrictions
+    const { data: isValid, error } = await supabase.rpc('verify_passport_wealth', {
+      p_passport_id: passportTarget,
+      p_category: reqCategory,
+      p_min_value: reqMinimum
+    });
+
     await new Promise(r => setTimeout(r, 800));
     
     addLog(`[CIRCUIT] Verifying mathematical constraint: wealth >= $${reqMinimum.toLocaleString()}...`);
     await new Promise(r => setTimeout(r, 1200));
 
-    if (totalCategoryValue >= reqMinimum) {
+    if (error) {
+      console.error("RPC Error:", error);
+      addLog(`[FAILED] Proof rejected. User does not meet minimum condition or passport not found.`);
+      setProofResult('INVALID');
+    } else if (isValid) {
       addLog(`[SUCCESS] Proof verified! Identity bound to: Gov-ID ***4829`);
       setProofResult('VALID');
     } else {
