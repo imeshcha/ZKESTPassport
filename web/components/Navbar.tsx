@@ -4,13 +4,17 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { supabase } from "@/app/utils/supabase";
-import { Grid, ArrowRight, User, LogOut } from "lucide-react";
-import { useAccount } from "wagmi";
+import { Grid, ArrowRight, User, LogOut, Wallet } from "lucide-react";
+import { useAccount, useConnect, useDisconnect } from "wagmi";
 
 export default function Navbar() {
   const [user, setUser] = useState<any>(null);
   const [showProfile, setShowProfile] = useState(false);
-  const { address } = useAccount();
+  const [showConnectorModal, setShowConnectorModal] = useState(false);
+  
+  const { address, isConnected } = useAccount();
+  const { connect, connectors } = useConnect();
+  const { disconnect } = useDisconnect();
   const router = useRouter();
 
   useEffect(() => {
@@ -104,7 +108,19 @@ export default function Navbar() {
                     </div>
                     <div>
                       <span className="text-gray-400 block mb-1">Active Wallet:</span>
-                      <span className="font-bold text-black break-all">{address || "Not connected"}</span>
+                      {address ? (
+                        <span className="font-bold text-black break-all">{address}</span>
+                      ) : (
+                        <button
+                          onClick={() => {
+                            setShowProfile(false);
+                            setShowConnectorModal(true);
+                          }}
+                          className="mt-1 w-full flex items-center justify-center gap-2 py-2 bg-gray-50 text-gray-700 border border-gray-200 rounded-xl font-bold text-[10px] uppercase tracking-widest hover:border-[#ff5a1f] hover:text-[#ff5a1f] transition"
+                        >
+                          <Wallet size={12} /> Connect Wallet
+                        </button>
+                      )}
                     </div>
                   </div>
 
@@ -130,6 +146,38 @@ export default function Navbar() {
           </Link>
         )}
       </div>
+
+      {/* Wagmi Connect Modal */}
+      {showConnectorModal && (
+        <div className="fixed inset-0 bg-black/80 z-50 flex justify-center items-center p-4">
+          <div className="bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(255,255,255,1)] w-full max-w-sm overflow-hidden relative p-6">
+            <div className="flex justify-between items-center mb-6">
+              <h3 className="font-black text-xl uppercase tracking-tighter text-black">Select Wallet</h3>
+              <button onClick={() => setShowConnectorModal(false)} className="text-black hover:bg-gray-200 border-2 border-black p-1 transition">
+                <span className="font-bold px-2">X</span>
+              </button>
+            </div>
+            <div className="space-y-3">
+              {connectors.map((connector) => (
+                <button
+                  key={connector.uid}
+                  onClick={() => {
+                    if (isConnected) disconnect();
+                    setTimeout(() => connect({ connector }), 100);
+                    setShowConnectorModal(false);
+                  }}
+                  className="w-full py-4 px-4 bg-gray-50 text-black font-bold uppercase tracking-widest hover:bg-gray-200 border-2 border-black transition text-left flex items-center justify-between"
+                >
+                  {connector.name}
+                  {connector.ready ? (
+                    <span className="w-2 h-2 rounded-full bg-green-500 border border-black"></span>
+                  ) : null}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
 
     </header>
   );
