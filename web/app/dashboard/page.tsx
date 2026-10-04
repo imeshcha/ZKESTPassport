@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useEffect, useState } from "react";
 import { supabase } from "@/app/utils/supabase";
@@ -705,7 +705,7 @@ export default function Dashboard() {
               <div className="p-3 rounded-full bg-orange-50"><Landmark size={24} className="text-[#ff5a1f]"/></div>
               <h3 className="font-bold text-xl text-black">Exchanges & Off-Chain Assets</h3>
             </div>
-            <p className="text-gray-500 font-medium text-sm mb-8">Securely link crypto exchanges (Binance, Coinbase), bank accounts, and traditional real estate via zkTLS Oracles.</p>
+            <p className="text-gray-500 font-medium text-sm mb-8">Securely link crypto exchanges, bank accounts, and traditional real estate via zkTLS Oracles.</p>
             <button 
               onClick={handleOpenAddModal} 
               className="w-full flex items-center justify-between py-1 pl-6 pr-1 bg-[#111111] text-white rounded-full font-bold uppercase text-[11px] tracking-widest hover:bg-gray-800 transition shadow-lg mt-auto relative overflow-hidden"
