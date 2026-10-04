@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/app/utils/supabase";
@@ -338,8 +338,8 @@ export default function PassportPage() {
               {/* Net Worth Summary */}
               <div className="grid grid-cols-3 gap-3">
                 {[
-                  { label: "RWA", value: `$${Number(passport.rwa_total).toLocaleString()}` },
-                  { label: "Crypto", value: `$${Number(passport.crypto_total).toLocaleString()}` },
+                  { label: "Offchain", value: `$${Number(passport.rwa_total).toLocaleString()}` },
+                  { label: "Onchain", value: `$${Number(passport.crypto_total).toLocaleString()}` },
                   { label: "Total", value: `$${Number(passport.grand_total).toLocaleString()}` },
                 ].map(s => (
                   <div key={s.label} className="bg-white border border-gray-100 rounded-2xl p-4 text-center shadow-sm">
