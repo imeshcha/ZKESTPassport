@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect } from "react";
 import { supabase } from "@/app/utils/supabase";
@@ -195,7 +195,7 @@ export default function VerificationPortal() {
               
               {proofResult !== 'IDLE' && (
                 <div className={`mt-8 p-6 flex items-center gap-6 rounded-2xl ${
-                  proofResult === 'VALID' ? 'bg-[#ff5a1f]/10 text-[#ff5a1f] border border-[#ff5a1f]/20' : 'bg-red-500/10 text-red-500 border border-red-500/20'
+                  proofResult === 'VALID' ? 'bg-green-500/10 text-green-500 border border-green-500/20' : 'bg-red-500/10 text-red-500 border border-red-500/20'
                 }`}>
                   {proofResult === 'VALID' ? <CheckCircle size={32} /> : <XCircle size={32} />}
                   <div>
