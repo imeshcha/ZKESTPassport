@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/app/utils/supabase";
@@ -269,49 +269,49 @@ export default function PassportPage() {
 
             {/* Left: Passport Card */}
             <div className="space-y-4">
-              <div className="bg-[#ff5a1f] text-white p-10 shadow-2xl rounded-3xl relative overflow-hidden">
+              <div className="bg-[#111111] text-white p-10 shadow-2xl rounded-3xl relative overflow-hidden border border-gray-800">
                 <div className="absolute -right-20 -top-20 opacity-10">
                   <Shield size={350} className="text-white" />
                 </div>
 
                 <div className="flex justify-between items-start mb-10 relative z-10">
                   <div>
-                    <p className="text-white/60 text-[10px] font-bold tracking-widest uppercase mb-1">Decentralized Identity</p>
+                    <p className="text-gray-400 text-[10px] font-bold tracking-widest uppercase mb-1">Decentralized Identity</p>
                     <h3 className="text-3xl font-bold tracking-tight text-white">zkest passport</h3>
                   </div>
                   <div className="bg-white/10 p-3 rounded-2xl backdrop-blur-sm">
-                    <Fingerprint className="text-white" size={32} />
+                    <Fingerprint className="text-[#ff5a1f]" size={32} />
                   </div>
                 </div>
 
                 <div className="space-y-5 relative z-10">
                   <div>
-                    <p className="text-white/60 font-bold text-[10px] uppercase tracking-widest mb-1">Passport ID</p>
-                    <div className="flex items-center gap-3 bg-black/20 p-3 rounded-xl border border-white/10">
-                      <p className="font-mono text-xl font-bold tracking-widest">{passportId}</p>
+                    <p className="text-gray-400 font-bold text-[10px] uppercase tracking-widest mb-1">Passport ID</p>
+                    <div className="flex items-center gap-3 bg-white/5 text-gray-300 p-3 rounded-xl border border-white/10">
+                      <p className="font-mono text-xl font-bold tracking-widest text-[#ff5a1f]">{passportId}</p>
                       <button onClick={copyPassportId} className="ml-auto bg-white/10 hover:bg-white/20 p-2 rounded-lg transition">
-                        {copied ? <CheckCircle2 size={14} className="text-green-400" /> : <Copy size={14} className="text-white/60" />}
+                        {copied ? <CheckCircle2 size={14} className="text-green-400" /> : <Copy size={14} className="text-gray-400" />}
                       </button>
                     </div>
                     <p className="text-white/40 text-[10px] mt-1">Share this ID with verification parties</p>
                   </div>
 
                   <div>
-                    <p className="text-white/60 font-bold text-[10px] uppercase tracking-widest mb-1">Owner</p>
-                    <p className="font-mono text-xs break-all bg-black/20 p-3 rounded-xl border border-white/10">{user.id}</p>
+                    <p className="text-gray-400 font-bold text-[10px] uppercase tracking-widest mb-1">Owner</p>
+                    <p className="font-mono text-xs break-all bg-white/5 text-gray-300 p-3 rounded-xl border border-white/10">{user.id}</p>
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <p className="text-white/60 font-bold text-[10px] uppercase tracking-widest mb-1">Network</p>
-                      <div className="flex items-center gap-2 bg-black/20 p-3 rounded-xl border border-white/10">
+                      <p className="text-gray-400 font-bold text-[10px] uppercase tracking-widest mb-1">Network</p>
+                      <div className="flex items-center gap-2 bg-white/5 text-gray-300 p-3 rounded-xl border border-white/10">
                         <Activity size={12} className="text-white/80" />
                         <span className="font-bold text-xs uppercase">Arbitrum</span>
                       </div>
                     </div>
                     <div>
-                      <p className="text-white/60 font-bold text-[10px] uppercase tracking-widest mb-1">Standard</p>
-                      <div className="flex items-center gap-2 bg-black/20 p-3 rounded-xl border border-white/10">
+                      <p className="text-gray-400 font-bold text-[10px] uppercase tracking-widest mb-1">Standard</p>
+                      <div className="flex items-center gap-2 bg-white/5 text-gray-300 p-3 rounded-xl border border-white/10">
                         <Hash size={12} className="text-white/80" />
                         <span className="font-bold text-xs uppercase">ERC-5192</span>
                       </div>
@@ -319,7 +319,7 @@ export default function PassportPage() {
                   </div>
 
                   <div>
-                    <p className="text-white/60 font-bold text-[10px] uppercase tracking-widest mb-1">Status</p>
+                    <p className="text-gray-400 font-bold text-[10px] uppercase tracking-widest mb-1">Status</p>
                     <div className={`flex items-center gap-3 p-3 rounded-xl border ${alreadyMinted ? "bg-green-500/20 border-green-500/30" : "bg-white/10 border-white/20"}`}>
                       <CheckCircle2 size={14} className={alreadyMinted ? "text-green-300" : "text-white"} />
                       <span className="font-bold text-xs uppercase">{alreadyMinted ? "✓ Minted On Arbitrum" : "Ready to Mint"}</span>
@@ -328,8 +328,8 @@ export default function PassportPage() {
 
                   {alreadyMinted && passport.minted_wallet && (
                     <div>
-                      <p className="text-white/60 font-bold text-[10px] uppercase tracking-widest mb-1">Minted From</p>
-                      <p className="font-mono text-xs break-all bg-black/20 p-3 rounded-xl border border-white/10">{passport.minted_wallet}</p>
+                      <p className="text-gray-400 font-bold text-[10px] uppercase tracking-widest mb-1">Minted From</p>
+                      <p className="font-mono text-xs break-all bg-white/5 text-gray-300 p-3 rounded-xl border border-white/10">{passport.minted_wallet}</p>
                     </div>
                   )}
                 </div>
