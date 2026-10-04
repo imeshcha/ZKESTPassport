@@ -4,14 +4,16 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { WagmiProvider, createConfig, http } from 'wagmi'
 import { arbitrumSepolia } from 'wagmi/chains'
 import { ReactNode, useState } from 'react'
-import { injected, walletConnect } from 'wagmi/connectors'
+import { injected, walletConnect, coinbaseWallet } from 'wagmi/connectors'
 
 export const config = createConfig({
   chains: [arbitrumSepolia],
+  multiInjectedProviderDiscovery: true, // Option 1: Automatically detects all installed browser wallets (MetaMask, Phantom, etc.)
   connectors: [
-    injected(),
+    injected(), // Standard browser extension wallets
+    coinbaseWallet({ appName: 'ZKEST Wealth Passport' }), // Specific Coinbase Wallet connector
     walletConnect({ 
-      projectId: '3fcc6bba6f1de962d911bb5b5c3dba68', // Public test project ID, replace with yours from cloud.walletconnect.com
+      projectId: '3fcc6bba6f1de962d911bb5b5c3dba68', // Option 2: Mobile QR Code
       showQrModal: true 
     })
   ],
