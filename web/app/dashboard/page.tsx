@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useEffect, useState } from "react";
 import { supabase } from "@/app/utils/supabase";
@@ -618,7 +618,9 @@ export default function Dashboard() {
                 <span>KYC Verified</span>
               </div>
             </div>
-            <p className="text-gray-500 font-medium">Welcome back. Your financial data is encrypted and private.</p>
+            <p className="text-gray-600 font-medium text-lg tracking-tight mt-1">
+              Welcome back{user?.user_metadata?.full_name ? `, ${user.user_metadata.full_name.split(' ')[0]}` : ''}. <span className="text-gray-400">Your financial data is encrypted and private.</span>
+            </p>
           </div>
           
           <div className="flex flex-wrap gap-6 md:space-x-10">
