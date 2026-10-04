@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { ArrowRight, Grid, Fingerprint } from "lucide-react";
 
 export default function Home() {
@@ -50,7 +50,7 @@ export default function Home() {
       
       {/* Bottom middle crosshair icon */}
       <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 opacity-40">
-        <Grid size={20} className="text-black" />
+        
       </div>
 
     </div>
