@@ -8,8 +8,8 @@ import {
   ArrowRight, Wallet, Loader2, Zap, ExternalLink, Copy,
   AlertCircle, RefreshCw
 } from "lucide-react";
-import { parseAbi } from "viem";
-import { useAccount, useConnect, useDisconnect, useWalletClient, usePublicClient } from 'wagmi';
+import { createWalletClient, createPublicClient, custom, http, parseAbi } from "viem";
+import { arbitrumSepolia } from "viem/chains";
 
 // ─── Contract config ─────────────────────────────────────────────────────────
 // Deploy ZKESTPassport.sol to Arbitrum and paste the address here (or in .env)
@@ -28,14 +28,8 @@ export default function PassportPage() {
   const [wallets, setWallets] = useState<any[]>([]);
   const [passport, setPassport] = useState<any>(null);
 
-  // Wagmi Hooks for Wallet Connection
-  const { address: connectedAddress, isConnected } = useAccount();
-  const { connect, connectors } = useConnect();
-  const { disconnect } = useDisconnect();
-  const { data: walletClient } = useWalletClient();
-  const publicClient = usePublicClient();
-  const [showConnectorModal, setShowConnectorModal] = useState(false);
-
+  // Wallet connection for minting
+  const [connectedAddress, setConnectedAddress] = useState<string | null>(null);
   const [selectedWalletId, setSelectedWalletId] = useState<string>("");
 
   // Mint state
@@ -91,6 +85,44 @@ export default function PassportPage() {
     setTimeout(() => setCopied(false), 2000);
   };
 
+  // Connect the selected wallet via MetaMask
+  const connectSelectedWallet = async () => {
+    const w = window as any;
+    if (!w.ethereum) {
+      alert("MetaMask not found. Please install MetaMask.");
+      return;
+    }
+    try {
+      const accounts = await w.ethereum.request({ method: "eth_requestAccounts" });
+      setConnectedAddress(accounts[0]);
+
+      // Switch to Arbitrum
+      try {
+        await w.ethereum.request({
+          method: "wallet_switchEthereumChain",
+          params: [{ chainId: "0x66eee" }], // Arbitrum One
+        });
+      } catch (switchErr: any) {
+        // Add Arbitrum if not present
+        if (switchErr.code === 4902) {
+          await w.ethereum.request({
+            method: "wallet_addEthereumChain",
+            params: [{
+              chainId: "0x66eee",
+              chainName: "Arbitrum Sepolia",
+              nativeCurrency: { name: "Ether", symbol: "ETH", decimals: 18 },
+              rpcUrls: ["https://sepolia-rollup.arbitrum.io/rpc"],
+              blockExplorerUrls: ["https://sepolia.arbiscan.io"],
+            }],
+          });
+        }
+      }
+    } catch (err: any) {
+      console.error(err);
+      alert("Wallet connection failed: " + (err.message || "Unknown error"));
+    }
+  };
+
   const mintSBT = async () => {
     if (!passport) return alert("No passport found. Generate one from the Dashboard first.");
     if (!connectedAddress) return alert("Please connect your wallet first.");
@@ -106,11 +138,6 @@ export default function PassportPage() {
       return;
     }
 
-    if (!walletClient || !publicClient) {
-      alert("Wallet client not ready. Please make sure your wallet is connected on the correct network.");
-      return;
-    }
-
     setIsMinting(true);
     setMintStep(0);
     setMintDone(false);
@@ -118,9 +145,21 @@ export default function PassportPage() {
     setTxHash(null);
 
     try {
+      const w = window as any;
+
       // Step 1
       setMintStep(1);
       await new Promise(r => setTimeout(r, 600));
+
+      // Create viem wallet client using the browser provider
+      const walletClient = createWalletClient({
+        chain: arbitrumSepolia,
+        transport: custom(w.ethereum),
+      });
+      const publicClient = createPublicClient({
+        chain: arbitrumSepolia,
+        transport: http("https://sepolia-rollup.arbitrum.io/rpc"),
+      });
 
       // Step 2 - Check if already minted
       setMintStep(2);
@@ -201,44 +240,6 @@ export default function PassportPage() {
         className="absolute inset-0 z-0 opacity-[0.1]"
         style={{ backgroundImage: 'radial-gradient(#000000 2px, transparent 2px)', backgroundSize: '40px 40px' }}
       />
-
-      {/* Wagmi Connect Modal */}
-      {showConnectorModal && (
-        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex justify-center items-center p-4" onClick={() => setShowConnectorModal(false)}>
-          <div className="bg-white border border-gray-100 shadow-2xl rounded-3xl w-full max-w-md overflow-hidden relative p-8" onClick={(e) => e.stopPropagation()}>
-            <div className="flex justify-between items-start mb-6">
-              <div>
-                <h3 className="font-bold text-2xl tracking-tight text-black">Connect Wallet</h3>
-                <p className="text-[10px] uppercase tracking-widest text-gray-400 mt-1">Select your provider</p>
-              </div>
-              <button onClick={() => setShowConnectorModal(false)} className="text-gray-400 hover:text-black hover:bg-gray-50 rounded-full p-2 transition">
-                <span className="font-bold px-1 text-lg">✕</span>
-              </button>
-            </div>
-            
-            <div className="space-y-3 max-h-[55vh] overflow-y-auto pr-2" style={{ scrollbarWidth: 'thin' }}>
-              {connectors.map((connector) => (
-                <button
-                  key={connector.uid}
-                  onClick={() => {
-                    if (isConnected) disconnect();
-                    setTimeout(() => connect({ connector }), 100);
-                    setShowConnectorModal(false);
-                  }}
-                  className="w-full p-4 bg-gray-50 border border-gray-100 rounded-2xl text-black font-bold uppercase text-xs tracking-widest hover:border-[#ff5a1f] hover:bg-orange-50 hover:text-[#ff5a1f] transition text-left flex items-center justify-between group shadow-sm"
-                >
-                  <span>{connector.name}</span>
-                  {connector.ready ? (
-                    <span className="w-2 h-2 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.5)]"></span>
-                  ) : (
-                    <span className="w-2 h-2 rounded-full bg-gray-300"></span>
-                  )}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
 
       <div className="max-w-[80rem] mx-auto space-y-10 relative z-10">
 
@@ -415,6 +416,7 @@ export default function PassportPage() {
                           value={selectedWalletId}
                           onChange={e => {
                             setSelectedWalletId(e.target.value);
+                            setConnectedAddress(null); // reset connection when selection changes
                           }}
                           className="w-full bg-gray-50 border border-gray-200 text-sm font-mono font-medium rounded-xl px-4 py-3 focus:outline-none focus:border-[#ff5a1f] transition"
                         >
@@ -427,23 +429,20 @@ export default function PassportPage() {
                       )}
                     </div>
 
-                    {/* Connect Wallet Button using Wagmi modal */}
+                    {/* Connect Wallet Button */}
                     {wallets.length > 0 && (
                       <button
-                        onClick={() => {
-                          if (isConnected) disconnect();
-                          else setShowConnectorModal(true);
-                        }}
+                        onClick={connectSelectedWallet}
                         className={`w-full flex items-center justify-center gap-2 py-3 rounded-xl border font-bold uppercase text-xs tracking-widest transition ${
-                          isConnected && connectedAddress
+                          connectedAddress
                             ? "bg-green-50 border-green-200 text-green-700"
                             : "bg-gray-50 border-gray-200 text-gray-700 hover:border-[#ff5a1f] hover:text-[#ff5a1f]"
                         }`}
                       >
                         <Wallet size={14} />
-                        {isConnected && connectedAddress
+                        {connectedAddress
                           ? `Connected: ${connectedAddress.substring(0, 8)}...${connectedAddress.substring(connectedAddress.length - 4)}`
-                          : "Connect Wagmi Wallet"}
+                          : "Connect Wallet (MetaMask)"}
                       </button>
                     )}
                   </div>
