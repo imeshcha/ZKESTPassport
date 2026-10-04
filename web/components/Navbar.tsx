@@ -4,10 +4,13 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { supabase } from "@/app/utils/supabase";
-import { Grid, ArrowRight } from "lucide-react";
+import { Grid, ArrowRight, User, LogOut } from "lucide-react";
+import { useAccount } from "wagmi";
 
 export default function Navbar() {
   const [user, setUser] = useState<any>(null);
+  const [showProfile, setShowProfile] = useState(false);
+  const { address } = useAccount();
   const router = useRouter();
 
   useEffect(() => {
@@ -31,6 +34,7 @@ export default function Navbar() {
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
+    setShowProfile(false);
     router.push("/");
   };
 
@@ -72,15 +76,48 @@ export default function Navbar() {
       {/* Right Action */}
       <div className="flex-1 flex justify-end">
         {user ? (
-          <button 
-            onClick={handleLogout} 
-            className="flex items-center bg-white text-black rounded-full font-bold uppercase text-[10px] tracking-widest pr-1 pl-6 py-1 shadow-sm border border-gray-100 hover:shadow-md transition"
-          >
-            <span className="mr-4 text-black">LOGOUT</span>
-            <div className="bg-[#ff5a1f] rounded-full p-2 flex items-center justify-center">
-              <ArrowRight size={14} className="text-white" />
-            </div>
-          </button>
+          <div className="relative">
+            <button 
+              onClick={() => setShowProfile(!showProfile)} 
+              className="flex items-center bg-white text-black rounded-full font-bold uppercase text-[10px] tracking-widest pr-1 pl-6 py-1 shadow-sm border border-gray-100 hover:shadow-md transition"
+            >
+              <span className="mr-4 text-black">PROFILE</span>
+              <div className="bg-black rounded-full p-2 flex items-center justify-center">
+                <User size={14} className="text-white" />
+              </div>
+            </button>
+
+            {showProfile && (
+              <>
+                <div className="fixed inset-0 z-40" onClick={() => setShowProfile(false)} />
+                <div className="absolute right-0 mt-4 w-72 bg-white border border-gray-100 shadow-2xl rounded-3xl p-6 flex flex-col z-50">
+                  <p className="text-[10px] font-bold tracking-widest text-gray-400 uppercase mb-4">User Profile</p>
+                  
+                  <div className="space-y-4 font-mono text-xs text-gray-600 mb-6">
+                    <div>
+                      <span className="text-gray-400 block mb-1">User ID:</span>
+                      <span className="font-bold text-black break-all">{user.id}</span>
+                    </div>
+                    <div>
+                      <span className="text-gray-400 block mb-1">Email:</span>
+                      <span className="font-bold text-black break-all">{user.email}</span>
+                    </div>
+                    <div>
+                      <span className="text-gray-400 block mb-1">Active Wallet:</span>
+                      <span className="font-bold text-black break-all">{address || "Not connected"}</span>
+                    </div>
+                  </div>
+
+                  <button 
+                    onClick={handleLogout}
+                    className="w-full flex items-center justify-center gap-2 py-3 bg-red-50 text-red-600 rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-red-100 transition"
+                  >
+                    <LogOut size={14} /> Logout
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
         ) : (
           <Link 
             href="/login" 
