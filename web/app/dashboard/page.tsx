@@ -946,23 +946,23 @@ export default function Dashboard() {
                   <>
                     {!zkRequestUrl && !selectedProviderName ? (
                       <div className="w-full">
-                        <h4 className="font-bold text-lg mb-2">Select Provider</h4>
+                        <h4 className="font-bold text-lg mb-2 text-black">Select Provider</h4>
                         <p className="text-sm text-gray-500 mb-6">Choose a Real-World Asset source to cryptographically verify.</p>
                         <div className="space-y-3">
-                          <button onClick={() => runZkOracle(process.env.NEXT_PUBLIC_RECLAIM_PROVIDER_BINANCE_ID, "Binance")} className="w-full p-4 border border-gray-200 rounded-xl font-bold hover:border-[#ff5a1f] hover:bg-gray-50 transition flex justify-between items-center">
+                          <button onClick={() => runZkOracle(process.env.NEXT_PUBLIC_RECLAIM_PROVIDER_BINANCE_ID, "Binance")} className="w-full p-4 border border-gray-200 rounded-xl font-bold hover:border-[#ff5a1f] hover:bg-gray-50 transition flex justify-between items-center text-black">
                             <span>Binance</span> <ArrowRight size={16} className="text-gray-400" />
                           </button>
-                          <button onClick={() => runZkOracle(process.env.NEXT_PUBLIC_RECLAIM_PROVIDER_ETORO_ID, "eToro")} className="w-full p-4 border border-gray-200 rounded-xl font-bold hover:border-[#ff5a1f] hover:bg-gray-50 transition flex justify-between items-center">
+                          <button onClick={() => runZkOracle(process.env.NEXT_PUBLIC_RECLAIM_PROVIDER_ETORO_ID, "eToro")} className="w-full p-4 border border-gray-200 rounded-xl font-bold hover:border-[#ff5a1f] hover:bg-gray-50 transition flex justify-between items-center text-black">
                             <span>eToro</span> <ArrowRight size={16} className="text-gray-400" />
                           </button>
-                          <button onClick={() => runZkOracle(process.env.NEXT_PUBLIC_RECLAIM_PROVIDER_COINBASE_ID, "Coinbase")} className="w-full p-4 border border-gray-200 rounded-xl font-bold hover:border-[#ff5a1f] hover:bg-gray-50 transition flex justify-between items-center">
+                          <button onClick={() => runZkOracle(process.env.NEXT_PUBLIC_RECLAIM_PROVIDER_COINBASE_ID, "Coinbase")} className="w-full p-4 border border-gray-200 rounded-xl font-bold hover:border-[#ff5a1f] hover:bg-gray-50 transition flex justify-between items-center text-black">
                             <span>Coinbase</span> <ArrowRight size={16} className="text-gray-400" />
                           </button>
                         </div>
                       </div>
                     ) : (
                       <>
-                        <h4 className="font-bold text-lg mb-2">Connect to {selectedProviderName}</h4>
+                        <h4 className="font-bold text-lg mb-2 text-black">Connect to {selectedProviderName}</h4>
                         <p className="text-sm text-gray-500 mb-6">Scan this QR code with your Reclaim App to securely prove your {selectedProviderName} balance.</p>
                         <div className="p-4 bg-white border border-gray-200 rounded-2xl shadow-sm mb-6 inline-block">
                           <QRCode value={zkRequestUrl || "https://dev.reclaimprotocol.org/demo"} size={150} />
@@ -975,7 +975,7 @@ export default function Dashboard() {
                 {zkStatus === "verifying" && (
                   <div className="py-12 flex flex-col items-center">
                     <Loader2 size={48} className="text-[#ff5a1f] animate-spin mb-4" />
-                    <h4 className="font-bold text-lg mb-2">Generating Zero-Knowledge Proof</h4>
+                    <h4 className="font-bold text-lg mb-2 text-black">Generating Zero-Knowledge Proof</h4>
                     <p className="text-sm text-gray-500">Extracting TLS signatures from Chase Bank...</p>
                   </div>
                 )}
@@ -1007,7 +1007,7 @@ export default function Dashboard() {
                     value={assetName}
                     onChange={(e) => setAssetName(e.target.value)}
                     placeholder="e.g. Suburb House, 2023 Tesla" 
-                    className="w-full px-5 py-4 rounded-xl border border-gray-200 focus:outline-none focus:border-[#ff5a1f] focus:ring-1 focus:ring-[#ff5a1f] bg-gray-50 text-sm font-medium transition"
+                    className="w-full px-5 py-4 rounded-xl border border-gray-200 focus:outline-none focus:border-[#ff5a1f] focus:ring-1 focus:ring-[#ff5a1f] bg-gray-50 text-sm font-medium transition text-black"
                   />
                 </div>
   
@@ -1016,7 +1016,7 @@ export default function Dashboard() {
                   <select 
                     value={assetCategory}
                     onChange={(e) => setAssetCategory(e.target.value)}
-                    className="w-full px-5 py-4 rounded-xl border border-gray-200 focus:outline-none focus:border-[#ff5a1f] focus:ring-1 focus:ring-[#ff5a1f] bg-gray-50 text-sm font-medium transition appearance-none"
+                    className="w-full px-5 py-4 rounded-xl border border-gray-200 focus:outline-none focus:border-[#ff5a1f] focus:ring-1 focus:ring-[#ff5a1f] bg-gray-50 text-sm font-medium transition text-black appearance-none"
                   >
                     <option value="BANK_ACCOUNT">Bank Account</option>
                     <option value="LAND">Land / Real Estate</option>
@@ -1041,7 +1041,7 @@ export default function Dashboard() {
                     value={assetValue}
                     onChange={(e) => setAssetValue(e.target.value)}
                     placeholder="150000" 
-                    className="w-full px-5 py-4 rounded-xl border border-gray-200 focus:outline-none focus:border-[#ff5a1f] focus:ring-1 focus:ring-[#ff5a1f] bg-gray-50 text-sm font-medium transition"
+                    className="w-full px-5 py-4 rounded-xl border border-gray-200 focus:outline-none focus:border-[#ff5a1f] focus:ring-1 focus:ring-[#ff5a1f] bg-gray-50 text-sm font-medium transition text-black"
                   />
                 </div>
 
@@ -1151,7 +1151,7 @@ export default function Dashboard() {
                     value={manualWalletInput}
                     onChange={(e) => setManualWalletInput(e.target.value)}
                     placeholder="0x..." 
-                    className="flex-1 px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#ff5a1f] bg-gray-50 text-sm font-mono"
+                    className="flex-1 px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#ff5a1f] bg-gray-50 text-sm font-mono text-black"
                   />
                   <button 
                     onClick={async () => {
