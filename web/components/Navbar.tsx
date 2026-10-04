@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -65,7 +65,7 @@ export default function Navbar() {
         {/* Dashboard & Passport Pill */}
         <div className="bg-white shadow-sm rounded-full px-8 py-3 flex items-center space-x-8 font-bold text-xs uppercase tracking-widest text-black border border-gray-100">
           <Link href="/dashboard" className="flex items-center hover:text-[#ff5a1f] transition">
-            Dashboard <Grid size={12} className="ml-2 text-[#ff5a1f]" />
+            Dashboard 
           </Link>
           <Link href="/passport" className="hover:text-[#ff5a1f] transition">
             Passport
@@ -75,7 +75,7 @@ export default function Navbar() {
         {/* Verify Pill */}
         <div className="bg-white shadow-sm rounded-full px-8 py-3 flex items-center font-bold text-xs uppercase tracking-widest text-black border border-gray-100">
           <Link href="/verify" className="flex items-center hover:text-[#ff5a1f] transition">
-            Verify <Grid size={12} className="ml-2 text-[#ff5a1f]" />
+            Verify 
           </Link>
         </div>
       </nav>
