@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useEffect, useState } from "react";
 import { supabase } from "@/app/utils/supabase";
@@ -648,12 +648,20 @@ export default function Dashboard() {
             <div>
               {existingPassport ? (
                 <>
-                  <div className="flex items-center gap-2 mb-1">
-                    <CheckCircle2 size={14} className="text-green-300" />
-                    <p className="text-green-300 text-[10px] font-bold uppercase tracking-widest">Passport Already Generated</p>
+                  <div className="flex flex-wrap items-center gap-3 mb-2">
+                    <div className="flex items-center gap-1.5 bg-green-500/20 border border-green-500/30 px-3 py-1 rounded-full">
+                      <CheckCircle2 size={12} className="text-green-300" />
+                      <p className="text-green-300 text-[10px] font-bold uppercase tracking-widest">Passport Active</p>
+                    </div>
+                    <div className="flex items-center gap-1.5 bg-white/10 border border-white/20 px-3 py-1 rounded-full">
+                      <Zap size={12} className="text-white/80" />
+                      <p className="text-white/80 text-[10px] font-bold uppercase tracking-widest">
+                        {existingPassport.minted_tx_hash ? "Minted on Arbitrum" : "Ready for SBT Mint"}
+                      </p>
+                    </div>
                   </div>
-                  <h3 className="text-2xl font-bold text-white">ZK Passport: <span className="font-mono">{existingPassport.passport_id}</span></h3>
-                  <p className="text-white/70 font-medium text-lg tracking-tight mt-1">Your Zero-Knowledge Proof Passport is active. {existingPassport.minted_tx_hash ? "✓ Minted on Arbitrum" : "Ready to mint as SBT on Arbitrum."}</p>
+                  <h3 className="text-2xl font-bold text-white mb-1">ZK Passport: <span className="font-mono">{existingPassport.passport_id}</span></h3>
+                  <p className="text-white/70 font-medium text-lg tracking-tight">Your Zero-Knowledge Proof Passport is fully functional and ready to use.</p>
                 </>
               ) : (
                 <>
