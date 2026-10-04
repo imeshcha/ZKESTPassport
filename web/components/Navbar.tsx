@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/app/utils/supabase";
 import { Grid, ArrowRight, User, LogOut, Wallet } from "lucide-react";
 import { useAccount, useConnect, useDisconnect } from "wagmi";
+import { createPortal } from "react-dom";
 
 export default function Navbar() {
   const [user, setUser] = useState<any>(null);
@@ -147,9 +148,9 @@ export default function Navbar() {
         )}
       </div>
 
-      {/* Wagmi Connect Modal */}
-      {showConnectorModal && (
-        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex justify-center items-center p-4" onClick={() => setShowConnectorModal(false)}>
+            {/* Wagmi Connect Modal */}
+      {showConnectorModal && mounted && createPortal(
+        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[9999] flex justify-center items-center p-4" onClick={() => setShowConnectorModal(false)}>
           <div className="bg-white border border-gray-100 shadow-2xl rounded-3xl w-full max-w-md overflow-hidden relative p-8" onClick={(e) => e.stopPropagation()}>
             <div className="flex justify-between items-start mb-6">
               <div>
@@ -157,7 +158,7 @@ export default function Navbar() {
                 <p className="text-[10px] uppercase tracking-widest text-gray-400 mt-1">Select your provider</p>
               </div>
               <button onClick={() => setShowConnectorModal(false)} className="text-gray-400 hover:text-black hover:bg-gray-50 rounded-full p-2 transition">
-                <span className="font-bold px-1 text-lg">✕</span>
+                <span className="font-bold px-1 text-lg">X</span>
               </button>
             </div>
             
@@ -182,10 +183,10 @@ export default function Navbar() {
               ))}
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
     </header>
   );
 }
-
