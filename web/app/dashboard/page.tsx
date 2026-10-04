@@ -623,11 +623,11 @@ export default function Dashboard() {
           
           <div className="flex flex-wrap gap-6 md:space-x-10">
             <div className="text-right border-r border-gray-100 pr-6 md:pr-10">
-              <p className="text-xs text-gray-400 font-bold uppercase tracking-widest mb-1">Offchain Values</p>
+              <p className="text-xs text-gray-400 font-bold uppercase tracking-widest mb-1">Offchain Value</p>
               <p className="text-2xl font-bold text-black">${(rwaTotal + exchangeTotal).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</p>
             </div>
             <div className="text-right border-r border-gray-100 pr-6 md:pr-10">
-              <p className="text-xs text-gray-400 font-bold uppercase tracking-widest mb-1">Web3 Wallets</p>
+              <p className="text-xs text-gray-400 font-bold uppercase tracking-widest mb-1">Onchain Value</p>
               <p className="text-2xl font-bold text-black">${cryptoTotal.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</p>
             </div>
             <div className="text-right">
