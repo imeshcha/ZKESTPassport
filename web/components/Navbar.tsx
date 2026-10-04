@@ -12,6 +12,8 @@ export default function Navbar() {
   const [user, setUser] = useState<any>(null);
   const [showProfile, setShowProfile] = useState(false);
   const [showConnectorModal, setShowConnectorModal] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
   
   const { address, isConnected } = useAccount();
   const { connect, connectors } = useConnect();
@@ -190,3 +192,4 @@ export default function Navbar() {
     </header>
   );
 }
+
