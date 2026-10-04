@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useEffect, useState } from "react";
 import { supabase } from "@/app/utils/supabase";
@@ -653,13 +653,13 @@ export default function Dashboard() {
                     <p className="text-green-300 text-[10px] font-bold uppercase tracking-widest">Passport Already Generated</p>
                   </div>
                   <h3 className="text-2xl font-bold text-white">ZK Passport: <span className="font-mono">{existingPassport.passport_id}</span></h3>
-                  <p className="text-white/70 text-sm font-medium mt-1">Your Zero-Knowledge Proof Passport is active. {existingPassport.minted_tx_hash ? "✓ Minted on Arbitrum" : "Ready to mint as SBT on Arbitrum."}</p>
+                  <p className="text-white/70 font-medium text-lg tracking-tight mt-1">Your Zero-Knowledge Proof Passport is active. {existingPassport.minted_tx_hash ? "✓ Minted on Arbitrum" : "Ready to mint as SBT on Arbitrum."}</p>
                 </>
               ) : (
                 <>
                   <p className="text-white/60 text-[10px] font-bold uppercase tracking-widest mb-1">Step 2 — After connecting wallets & adding RWAs</p>
                   <h3 className="text-2xl font-bold text-white">Generate Your ZK Passport</h3>
-                  <p className="text-white/70 text-sm font-medium mt-1">Compile all your verified assets into a cryptographic Zero-Knowledge Proof Passport.</p>
+                  <p className="text-white/70 font-medium text-lg tracking-tight mt-1">Compile all your verified assets into a cryptographic Zero-Knowledge Proof Passport.</p>
                 </>
               )}
             </div>
@@ -690,7 +690,7 @@ export default function Dashboard() {
               <div className="p-3 rounded-full bg-orange-50"><Wallet size={24} className="text-[#ff5a1f]"/></div>
               <h3 className="font-bold text-xl text-black">Web3 Wallets</h3>
             </div>
-            <p className="text-gray-500 font-medium text-sm mb-8">Securely link your wallets to scan EVM balances automatically.</p>
+            <p className="text-gray-500 font-medium text-lg tracking-tight mb-8">Securely link your wallets to scan EVM balances automatically.</p>
             <button 
               onClick={() => setIsWalletModalOpen(true)}
               className="w-full flex items-center justify-between py-1 pl-6 pr-1 bg-[#111111] text-white rounded-full font-bold uppercase text-[11px] tracking-widest hover:bg-gray-800 transition shadow-lg mt-auto"
@@ -707,7 +707,7 @@ export default function Dashboard() {
               <div className="p-3 rounded-full bg-orange-50"><Landmark size={24} className="text-[#ff5a1f]"/></div>
               <h3 className="font-bold text-xl text-black">Exchanges & Off-Chain Assets</h3>
             </div>
-            <p className="text-gray-500 font-medium text-sm mb-8">Securely link crypto exchanges, bank accounts, and traditional real estate via zkTLS Oracles.</p>
+            <p className="text-gray-500 font-medium text-lg tracking-tight mb-8">Securely link crypto exchanges, bank accounts, and traditional real estate via zkTLS Oracles.</p>
             <button 
               onClick={handleOpenAddModal} 
               className="w-full flex items-center justify-between py-1 pl-6 pr-1 bg-[#111111] text-white rounded-full font-bold uppercase text-[11px] tracking-widest hover:bg-gray-800 transition shadow-lg mt-auto relative overflow-hidden"
@@ -787,7 +787,7 @@ export default function Dashboard() {
                   assets.map((asset) => (
                     <tr key={asset.id} className="hover:bg-gray-50 transition group">
                       <td className="px-8 py-6 font-bold text-black">{asset.name}</td>
-                      <td className="px-8 py-6 text-gray-500 font-medium text-sm">{asset.asset_category}</td>
+                      <td className="px-8 py-6 text-gray-500 font-medium text-lg tracking-tight">{asset.asset_category}</td>
                       <td className="px-8 py-6 text-right font-bold text-black">
                         ${Number(asset.current_value_usd).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}
                       </td>
@@ -859,8 +859,8 @@ export default function Dashboard() {
                             </div>
                           )}
                         </td>
-                        <td className="px-8 py-6 text-gray-500 font-medium text-sm">{group.type}</td>
-                        <td className="px-8 py-6 text-gray-500 font-medium text-sm">
+                        <td className="px-8 py-6 text-gray-500 font-medium text-lg tracking-tight">{group.type}</td>
+                        <td className="px-8 py-6 text-gray-500 font-medium text-lg tracking-tight">
                           {group.items.length === 1 ? group.items[0].network : "Multiple"}
                         </td>
                         <td className="px-8 py-6 text-gray-400 font-mono text-sm truncate max-w-[120px]">
@@ -1189,7 +1189,7 @@ export default function Dashboard() {
               <Landmark size={28} className="text-[#ff5a1f]"/>
             </div>
             <h3 className="font-bold text-2xl text-black mb-2">Available in V2</h3>
-            <p className="text-gray-500 font-medium text-sm mb-8">
+            <p className="text-gray-500 font-medium text-lg tracking-tight mb-8">
               This feature will be unlocked in V2.
             </p>
             <button 
