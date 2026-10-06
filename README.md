@@ -49,19 +49,4 @@ zkest/
     └── package.json# Frontend dependencies (Reclaim, Wagmi, Supabase)
 ```
 
-## 🚀 Getting Started (Frontend)
 
-1. Navigate to the web directory:
-   ```bash
-   cd web
-   ```
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Set up your environment variables (requires Reclaim App ID/Secret and Supabase keys).
-4. Run the development server:
-   ```bash
-   npm run dev
-   ```
-5. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
